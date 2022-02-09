@@ -2,13 +2,7 @@
 import { ADD_EMAIL } from '../actions';
 
 const INITIAL_STATE = {
-  user: {
-    email: '',
-  },
-  wallet: {
-    currencies: [],
-    expenses: [],
-  },
+  email: '',
 };
 
 const userReducer = (state = INITIAL_STATE, action) => {

@@ -9,8 +9,8 @@ class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: '',
-      password: '',
+      email: 'abnerferreira84@gmail.com',
+      password: 'abnerferreira84@gmail.com',
       redirect: false,
     };
   }
@@ -42,7 +42,7 @@ class Login extends React.Component {
   };
 
   render() {
-    const { redirect } = this.state;
+    const { redirect, email, password } = this.state;
     return (
       <section>
         {redirect && <Redirect to="/carteira" />}
@@ -53,6 +53,7 @@ class Login extends React.Component {
               data-testid="email-input"
               name="email"
               type="email"
+              value={ email }
               id="email"
               onChange={ this.handleInput }
             />
@@ -63,6 +64,7 @@ class Login extends React.Component {
               data-testid="password-input"
               name="password"
               type="password"
+              value={ password }
               id="password"
               onChange={ this.handleInput }
             />
