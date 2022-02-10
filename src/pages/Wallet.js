@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import TableExpense from '../components/TableExpense';
 import { fetchCurrency } from '../actions';
 
 const DOLAR_TURISMO = 'USDT';
@@ -173,6 +174,7 @@ class Wallet extends React.Component {
             Adicionar despesa
           </button>
         </form>
+        <TableExpense />
       </section>
     );
   }
