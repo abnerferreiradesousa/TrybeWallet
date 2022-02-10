@@ -24,12 +24,9 @@ function getCurrency(json) {
 // }
 
 export function fetchCurrency(data) {
-  console.log('thunk');
   return async (dispatch) => {
-    console.log('dispatch');
     dispatch(actionExpanses());
     // try {
-    console.log('request');
     const response = await fetch('https://economia.awesomeapi.com.br/json/all');
     const json = await response.json();
     data.exchangeRates = json;

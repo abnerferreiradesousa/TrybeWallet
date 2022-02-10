@@ -65,8 +65,15 @@ class Wallet extends React.Component {
     getDataExpenses({ value, description, currency, method, tag, exchangeRates, id });
   };
 
+  handleExpenses = () => {
+    const { totalExpenses } = this.props;
+    return totalExpenses.reduce((acc, expense) => (
+      acc + Number(expense.value) * Number(expense.exchangeRates[expense.currency].ask)
+    ), 0);
+  };
+
   render() {
-    const { email } = this.props;
+    const { email, totalExpenses } = this.props;
     const { value, description, currency, method, tag, currencies } = this.state;
 
     return (
@@ -74,7 +81,12 @@ class Wallet extends React.Component {
 
         <p data-testid="email-field">{email}</p>
 
-        <p data-testid="total-field">0</p>
+        <p data-testid="total-field">
+          {totalExpenses.length > 0
+            ? this.handleExpenses()
+            : 0}
+        </p>
+        {/* <p data-testid="total-field">0</p> */}
 
         <p data-testid="header-currency-field">BRL</p>
 
@@ -110,7 +122,13 @@ class Wallet extends React.Component {
               data-testid="currency-input"
               onChange={ this.handleInput }
             >
-              {Array.from(currencies).map((coin) => <option key={ coin }>{coin}</option>)}
+              {Array.from(currencies).map((coin) => (
+                <option
+                  key={ coin }
+                  data-testid={ coin }
+                >
+                  {coin}
+                </option>))}
             </select>
           </label>
 
@@ -162,6 +180,7 @@ class Wallet extends React.Component {
 
 const mapStateToProps = (state) => ({
   email: state.user.email,
+  totalExpenses: state.wallet.expenses,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -171,6 +190,7 @@ const mapDispatchToProps = (dispatch) => ({
 Wallet.propTypes = {
   email: PropTypes.string.isRequired,
   getDataExpenses: PropTypes.func.isRequired,
+  totalExpenses: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Wallet);
