@@ -1,23 +1,22 @@
 // Coloque aqui suas actions
 export const ADD_EMAIL = 'ADD_EMAIL';
-export const GET_EXPANSES_DATA = 'GET_EXPANSES_DATA';
-export const SUCCESS = 'SUCCESS';
-export const FAILED = 'FAILED';
+export const REQUEST_SUCCESS = 'REQUEST_SUCCESS';
+export const REQUEST_FAILED = 'REQUEST_FAILED';
+export const DELETE_EXPENSE = 'DELETE_EXPENSE';
 
 const actionEmail = (payload) => ({
   type: ADD_EMAIL,
   payload,
 });
 
-function actionExpanses() {
-  return {
-    type: GET_EXPANSES_DATA,
-  };
-}
+export const deleteExpense = (payload) => ({
+  type: DELETE_EXPENSE,
+  payload,
+});
 
-function getCurrency(json) {
-  return { type: SUCCESS, payload: json };
-}
+const getCurrency = (json) => ({
+  type: REQUEST_SUCCESS, payload: json,
+});
 
 // function failedRequest(error) {
 //   return { type: FAILED, payload: error };
@@ -25,7 +24,6 @@ function getCurrency(json) {
 
 export function fetchCurrency(data) {
   return async (dispatch) => {
-    dispatch(actionExpanses());
     // try {
     const response = await fetch('https://economia.awesomeapi.com.br/json/all');
     const json = await response.json();
@@ -37,4 +35,5 @@ export function fetchCurrency(data) {
     // }
   };
 }
+
 export default actionEmail;
