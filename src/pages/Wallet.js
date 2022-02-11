@@ -84,7 +84,7 @@ class Wallet extends React.Component {
 
         <p data-testid="total-field">
           {totalExpenses.length > 0
-            ? this.handleExpenses()
+            ? (this.handleExpenses()).toFixed(2)
             : 0}
         </p>
         {/* <p data-testid="total-field">0</p> */}

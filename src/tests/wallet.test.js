@@ -24,7 +24,7 @@ const mockedExchange = jest.spyOn(global, 'fetch').mockImplementation(() => apiR
 
 afterEach(() => jest.clearAllMocks());
 
-describe.only('2 - Crie uma página para sua carteira com as seguintes características:', () => {
+describe('2 - Crie uma página para sua carteira com as seguintes características:', () => {
   test('A rota para esta página deve ser \'/carteira\'', () => {
     const { history } = renderWithRouterAndStore(<App />);
     history.push('/carteira');
@@ -38,7 +38,7 @@ describe.only('2 - Crie uma página para sua carteira com as seguintes caracter�
   });
 });
 
-describe.only('3 - Crie um header para a página de carteira contendo as seguintes características:', () => {
+describe('3 - Crie um header para a página de carteira contendo as seguintes características:', () => {
   const initial = initialStateHeader;
 
   test('Um elemento que exiba o email do usuário que fez login.', () => {
@@ -66,7 +66,7 @@ describe.only('3 - Crie um header para a página de carteira contendo as seguint
   });
 });
 
-describe.only('4 - Desenvolva um formulário para adicionar uma despesa contendo as seguintes características:', () => {
+describe('4 - Desenvolva um formulário para adicionar uma despesa contendo as seguintes características:', () => {
   test('Um campo para adicionar o valor da despesa', async () => {
     renderWithRouterAndStore(<Wallet />, '/carteira');
     const valueInput = await screen.findByTestId(VALUE_INPUT_TEST_ID);
@@ -234,7 +234,7 @@ describe.only('6 - Desenvolva uma tabela com os gastos contendo as seguintes car
   });
 });
 
-describe('7 - Implemente a lógica para que a tabela seja alimentada pelo estado da aplicação', () => {
+describe.only('7 - Implemente a lógica para que a tabela seja alimentada pelo estado da aplicação', () => {
   const initial = initialStateWithExpenses;
   test('A tabela deve ser alimentada pelo estado da aplicação, que estará disponível na chave expenses que vem do reducer wallet.', () => {
     renderWithRouterAndStore(<Wallet />, '/carteira', initial);
