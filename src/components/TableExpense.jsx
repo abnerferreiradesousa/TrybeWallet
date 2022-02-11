@@ -24,7 +24,7 @@ class TableExpense extends React.Component {
               <td>{expense.description}</td>
               <td>{expense.tag}</td>
               <td>{expense.method}</td>
-              <td>{Number(expense.value)}</td>
+              <td>{Number(expense.value).toFixed(2)}</td>
               <td>{expense.exchangeRates[expense.currency].name}</td>
               <td>{Number(expense.exchangeRates[expense.currency].ask).toFixed(2)}</td>
               <td>
@@ -40,12 +40,9 @@ class TableExpense extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  // console.log(state.wallet.expenses);
-  return {
-    totalExpenses: state.wallet.expenses,
-  };
-};
+const mapStateToProps = (state) => ({
+  totalExpenses: state.wallet.expenses,
+});
 
 TableExpense.propTypes = {
   totalExpenses: PropTypes.arrayOf(PropTypes.object).isRequired,
