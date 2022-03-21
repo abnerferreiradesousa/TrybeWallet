@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import TableExpense from '../components/TableExpense';
-import { fetchCurrency } from '../actions';
+import { fetchCurrency, currenciesAct } from '../actions';
 
 const DOLAR_TURISMO = 'USDT';
 class Wallet extends React.Component {
@@ -17,17 +17,28 @@ class Wallet extends React.Component {
       tag: '',
       // expenses: [],
       exchangeRates: '',
-      currencies: {},
+      currencies: [],
     };
   }
 
   componentDidMount() {
-    fetch('https://economia.awesomeapi.com.br/json/all')
-      .then((response) => response.json())
-      .then((json) => this.setState({
-        currencies: Object.keys(json).filter((coin) => coin !== DOLAR_TURISMO) }))
-      .catch((err) => err);
+    this.handleRequest();
   }
+
+  handleRequest = async () => {
+    try {
+      const response = await fetch('https://economia.awesomeapi.com.br/json/all');
+      const dataJson = await response.json();
+      const filterData = Object.keys(dataJson).filter((coin) => coin !== DOLAR_TURISMO);
+      this.setState({
+        currencies: filterData,
+      });
+      const { getCurrencies } = this.props;
+      getCurrencies(filterData);
+    } catch (err) {
+      return err;
+    }
+  };
 
   handleInput = ({ target }) => {
     const { value, id } = target;
@@ -35,32 +46,14 @@ class Wallet extends React.Component {
   };
 
   handleClick = () => {
-    // const { value, description, currency, method, tag, id } = this.state;
-
-    // const objExpenses = {
-    //   value,
-    //   description,
-    //   currency,
-    //   method,
-    //   tag,
-    //   id,
-    // };
-
     this.setState((prevState) => ({
       id: prevState.id + 1,
-      // expenses: [...prevState.expenses, objExpenses],
       value: '',
       description: '',
       currency: '',
       method: '',
       tag: '',
     }));
-    // () => {
-    // const { expenses } = this.state;
-    // const { getDataExpenses } = this.props;
-    // fetchCurrency(this.state);
-    // });
-    // const { value, description, currency, method, tag } = this.state;
     const { getDataExpenses } = this.props;
     const { value, description, currency, method, tag, exchangeRates, id } = this.state;
     getDataExpenses({ value, description, currency, method, tag, exchangeRates, id });
@@ -186,11 +179,13 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   getDataExpenses: (data) => dispatch(fetchCurrency(data)),
+  getCurrencies: (coins) => dispatch((currenciesAct(coins))),
 });
 
 Wallet.propTypes = {
   email: PropTypes.string.isRequired,
   getDataExpenses: PropTypes.func.isRequired,
+  getCurrencies: PropTypes.func.isRequired,
   totalExpenses: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 

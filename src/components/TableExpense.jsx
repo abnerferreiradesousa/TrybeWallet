@@ -4,16 +4,29 @@ import { connect } from 'react-redux';
 import { deleteExpense } from '../actions';
 
 class TableExpense extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+    };
+  }
+
   handleDelete = ({ target }) => {
-    // console.log(typeof target.id);
     const { totalExpenses, getUpdateExpense } = this.props;
     const removeExpanse = totalExpenses
       .filter((expense) => expense.id !== Number(target.id));
     getUpdateExpense(removeExpanse);
   };
 
+  handleEditExpense =({ target }) => {
+    const { totalExpenses } = this.props;
+    const editExpanse = totalExpenses
+      .find((expense) => expense.id === Number(target.id));
+    return editExpanse;
+  };
+
   render() {
     const { totalExpenses } = this.props;
+
     return (
       <section>
         <tbody>
@@ -53,6 +66,14 @@ class TableExpense extends React.Component {
                 >
                   Deletar
                 </button>
+                <button
+                  data-testid="edit-btn"
+                  type="button"
+                  id={ expense.id }
+                  onClick={ this.handleEditExpense }
+                >
+                  Editar
+                </button>
               </td>
             </tr>
           ))}
@@ -64,15 +85,16 @@ class TableExpense extends React.Component {
 
 const mapStateToProps = (state) => ({
   totalExpenses: state.wallet.expenses,
+  currencies: state.wallet.currencies,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  getUpdateExpense: (id) => dispatch(deleteExpense(id)),
 });
 
 TableExpense.propTypes = {
   totalExpenses: PropTypes.arrayOf(PropTypes.object).isRequired,
   getUpdateExpense: PropTypes.func.isRequired,
 };
-
-const mapDispatchToProps = (dispatch) => ({
-  getUpdateExpense: (id) => dispatch(deleteExpense(id)),
-});
 
 export default connect(mapStateToProps, mapDispatchToProps)(TableExpense);
