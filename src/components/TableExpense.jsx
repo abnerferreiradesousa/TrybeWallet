@@ -18,15 +18,15 @@ class TableExpense extends React.Component {
   };
 
   handleEditExpense =({ target }) => {
-    const { totalExpenses } = this.props;
+    const { totalExpenses, handleEdit, editDataExpanse } = this.props;
+    handleEdit();
     const editExpanse = totalExpenses
       .find((expense) => expense.id === Number(target.id));
-    return editExpanse;
+    editDataExpanse(editExpanse);
   };
 
   render() {
     const { totalExpenses } = this.props;
-
     return (
       <section>
         <tbody>
@@ -95,6 +95,8 @@ const mapDispatchToProps = (dispatch) => ({
 TableExpense.propTypes = {
   totalExpenses: PropTypes.arrayOf(PropTypes.object).isRequired,
   getUpdateExpense: PropTypes.func.isRequired,
+  handleEdit: PropTypes.func.isRequired,
+  editDataExpanse: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TableExpense);

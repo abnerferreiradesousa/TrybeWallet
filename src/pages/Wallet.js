@@ -2,20 +2,20 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import TableExpense from '../components/TableExpense';
-import { fetchCurrency, currenciesAct } from '../actions';
+import { fetchCurrency, currenciesAct, deleteExpense } from '../actions';
 
 const DOLAR_TURISMO = 'USDT';
 class Wallet extends React.Component {
   constructor() {
     super();
     this.state = {
+      isEditing: false,
       id: 0,
       value: '',
       description: '',
       currency: '',
       method: '',
       tag: '',
-      // expenses: [],
       exchangeRates: '',
       currencies: [],
     };
@@ -40,12 +40,23 @@ class Wallet extends React.Component {
     }
   };
 
-  handleInput = ({ target }) => {
-    const { value, id } = target;
-    this.setState({ [id]: value });
+  editDataExpanse = (expanse) => {
+    this.setState({
+      id: expanse.id,
+      value: expanse.value,
+      description: expanse.description,
+      exchangeRates: expanse.exchangeRates,
+      currency: expanse.currency,
+      method: expanse.method,
+      tag: expanse.tag,
+    });
   };
 
-  handleClick = () => {
+  handleEdit = () => {
+    this.setState((prevState) => ({ isEditing: !prevState.isEditing }));
+  }
+
+  cleanInputs = () => {
     this.setState((prevState) => ({
       id: prevState.id + 1,
       value: '',
@@ -54,6 +65,33 @@ class Wallet extends React.Component {
       method: '',
       tag: '',
     }));
+  };
+
+  handleEditedExpanse = () => {
+    const { totalExpenses, getUpdateExpense } = this.props;
+    const { value, description, currency, method, tag, exchangeRates, id } = this.state;
+    const editObj = {
+      value,
+      description,
+      currency,
+      method,
+      tag,
+      exchangeRates,
+      id,
+    };
+    totalExpenses.splice(id, 1, editObj);
+    getUpdateExpense(totalExpenses);
+    this.cleanInputs();
+    this.handleEdit();
+  };
+
+  handleInput = ({ target }) => {
+    const { value, id } = target;
+    this.setState({ [id]: value });
+  };
+
+  handleClick = () => {
+    this.cleanInputs();
     const { getDataExpenses } = this.props;
     const { value, description, currency, method, tag, exchangeRates, id } = this.state;
     getDataExpenses({ value, description, currency, method, tag, exchangeRates, id });
@@ -68,23 +106,26 @@ class Wallet extends React.Component {
 
   render() {
     const { email, totalExpenses } = this.props;
-    const { value, description, currency, method, tag, currencies } = this.state;
+    const {
+      value,
+      description,
+      currency,
+      method,
+      tag,
+      currencies,
+      isEditing,
+    } = this.state;
 
     return (
       <section>
-
         <p data-testid="email-field">{email}</p>
-
         <p data-testid="total-field">
           {totalExpenses.length > 0
             ? (this.handleExpenses()).toFixed(2)
             : 0}
         </p>
-
         <p data-testid="header-currency-field">BRL</p>
-
         <form>
-
           <label htmlFor="value">
             Gastos
             <input
@@ -95,7 +136,6 @@ class Wallet extends React.Component {
               onChange={ this.handleInput }
             />
           </label>
-
           <label htmlFor="description">
             Descrição
             <input
@@ -106,7 +146,6 @@ class Wallet extends React.Component {
               onChange={ this.handleInput }
             />
           </label>
-
           <label htmlFor="currency">
             Moedas
             <select
@@ -158,15 +197,28 @@ class Wallet extends React.Component {
 
             </select>
           </label>
-
-          <button
-            type="button"
-            onClick={ this.handleClick }
-          >
-            Adicionar despesa
-          </button>
+          {
+            isEditing ? (
+              <button
+                type="button"
+                onClick={ this.handleEditedExpanse }
+              >
+                Editar despesa
+              </button>
+            ) : (
+              <button
+                type="button"
+                onClick={ this.handleClick }
+              >
+                Adicionar despesa
+              </button>
+            )
+          }
         </form>
-        <TableExpense />
+        <TableExpense
+          handleEdit={ this.handleEdit }
+          editDataExpanse={ this.editDataExpanse }
+        />
       </section>
     );
   }
@@ -179,6 +231,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   getDataExpenses: (data) => dispatch(fetchCurrency(data)),
+  getUpdateExpense: (id) => dispatch(deleteExpense(id)),
   getCurrencies: (coins) => dispatch((currenciesAct(coins))),
 });
 
@@ -187,6 +240,7 @@ Wallet.propTypes = {
   getDataExpenses: PropTypes.func.isRequired,
   getCurrencies: PropTypes.func.isRequired,
   totalExpenses: PropTypes.arrayOf(PropTypes.object).isRequired,
+  getUpdateExpense: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Wallet);
