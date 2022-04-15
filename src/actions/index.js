@@ -1,9 +1,11 @@
 // Coloque aqui suas actions
-export const ADD_EMAIL = 'ADD_EMAIL';
-export const REQUEST_SUCCESS = 'REQUEST_SUCCESS';
-export const REQUEST_FAILED = 'REQUEST_FAILED';
-export const DELETE_EXPENSE = 'DELETE_EXPENSE';
-export const ADD_CURRENCIES = 'ADD_CURRENCIES';
+import {
+  ADD_EMAIL,
+  REQUEST_SUCCESS,
+  // REQUEST_FAILED,
+  DELETE_EXPENSE,
+  ADD_CURRENCIES,
+} from './actionTypes';
 
 const actionEmail = (payload) => ({
   type: ADD_EMAIL,
@@ -15,8 +17,8 @@ export const deleteExpense = (payload) => ({
   payload,
 });
 
-const getCurrency = (json) => ({
-  type: REQUEST_SUCCESS, payload: json,
+const getCurrency = (obj) => ({
+  type: REQUEST_SUCCESS, payload: obj,
 });
 
 // function failedRequest(error) {

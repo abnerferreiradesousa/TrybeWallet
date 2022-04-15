@@ -2,9 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import TableExpense from '../components/TableExpense';
-import { fetchCurrency, currenciesAct, deleteExpense } from '../actions';
+import { fetchCurrency, deleteExpense } from '../actions';
+import './Wallet.css';
 
 const DOLAR_TURISMO = 'USDT';
+const TAG_ALIMENTO = 'Alimentação';
 class Wallet extends React.Component {
   constructor() {
     super();
@@ -13,9 +15,9 @@ class Wallet extends React.Component {
       id: 0,
       value: '',
       description: '',
-      currency: '',
-      method: '',
-      tag: '',
+      currency: 'USD',
+      method: 'Dinheiro',
+      tag: TAG_ALIMENTO,
       exchangeRates: '',
       currencies: [],
     };
@@ -33,8 +35,8 @@ class Wallet extends React.Component {
       this.setState({
         currencies: filterData,
       });
-      const { getCurrencies } = this.props;
-      getCurrencies(filterData);
+      // const { getCurrencies } = this.props;
+      // getCurrencies(filterData);
     } catch (err) {
       return err;
     }
@@ -61,9 +63,9 @@ class Wallet extends React.Component {
       id: prevState.id + 1,
       value: '',
       description: '',
-      currency: '',
-      method: '',
-      tag: '',
+      currency: 'USD',
+      method: 'Dinheiro',
+      tag: TAG_ALIMENTO,
     }));
   };
 
@@ -117,32 +119,36 @@ class Wallet extends React.Component {
     } = this.state;
 
     return (
-      <section>
-        <p data-testid="email-field">{email}</p>
-        <p data-testid="total-field">
-          {totalExpenses.length > 0
-            ? (this.handleExpenses()).toFixed(2)
-            : 0}
-        </p>
-        <p data-testid="header-currency-field">BRL</p>
-        <form>
+      <section className="card">
+        <header>
+          <section>
+            Trybe
+            <font>Wallet</font>
+          </section>
+          <section>
+            <span data-testid="email-field">
+              Email:
+              {' '}
+              {email}
+            </span>
+            <span data-testid="total-field">
+              Despesa Total:
+              {' '}
+              {totalExpenses.length > 0
+                ? (this.handleExpenses()).toFixed(2)
+                : 0}
+            </span>
+            <span data-testid="header-currency-field">BRL</span>
+          </section>
+        </header>
+        <form className="card__form">
           <label htmlFor="value">
-            Gastos
+            Valor
             <input
               type="number"
               id="value"
               value={ value }
               data-testid="value-input"
-              onChange={ this.handleInput }
-            />
-          </label>
-          <label htmlFor="description">
-            Descrição
-            <input
-              type="text"
-              id="description"
-              value={ description }
-              data-testid="description-input"
               onChange={ this.handleInput }
             />
           </label>
@@ -188,7 +194,6 @@ class Wallet extends React.Component {
               data-testid="tag-input"
               onChange={ this.handleInput }
             >
-              <option value="Despesa">Tag da despesa</option>
               <option value="Alimentação">Alimentação</option>
               <option value="Lazer">Lazer</option>
               <option value="Trabalho">Trabalho</option>
@@ -196,6 +201,16 @@ class Wallet extends React.Component {
               <option value="Saúde">Saúde</option>
 
             </select>
+          </label>
+          <label htmlFor="description">
+            Descrição
+            <input
+              type="text"
+              id="description"
+              value={ description }
+              data-testid="description-input"
+              onChange={ this.handleInput }
+            />
           </label>
           {
             isEditing ? (
@@ -215,10 +230,12 @@ class Wallet extends React.Component {
             )
           }
         </form>
-        <TableExpense
-          handleEdit={ this.handleEdit }
-          editDataExpanse={ this.editDataExpanse }
-        />
+        <section className="card__table">
+          <TableExpense
+            handleEdit={ this.handleEdit }
+            editDataExpanse={ this.editDataExpanse }
+          />
+        </section>
       </section>
     );
   }
@@ -232,13 +249,13 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   getDataExpenses: (data) => dispatch(fetchCurrency(data)),
   getUpdateExpense: (id) => dispatch(deleteExpense(id)),
-  getCurrencies: (coins) => dispatch((currenciesAct(coins))),
+  // getCurrencies: (coins) => dispatch((currenciesAct(coins))),
 });
 
 Wallet.propTypes = {
   email: PropTypes.string.isRequired,
   getDataExpenses: PropTypes.func.isRequired,
-  getCurrencies: PropTypes.func.isRequired,
+  // getCurrencies: PropTypes.func.isRequired,
   totalExpenses: PropTypes.arrayOf(PropTypes.object).isRequired,
   getUpdateExpense: PropTypes.func.isRequired,
 };

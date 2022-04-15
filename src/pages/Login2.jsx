@@ -71,6 +71,7 @@ class Login extends React.Component {
           </label>
           <button
             type="submit"
+            className="bg-sky-600 hover:bg-sky-700 ..."
             disabled={ !this.handleDisabled() }
             onClick={ this.handleClick }
           >

@@ -1,0 +1,23 @@
+table {
+  margin: 2rem auto;
+  width: 98%;
+}
+
+.header__item {
+  padding: 1rem;
+}
+
+.body_item {
+  padding: 1rem 0;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 5rem;
+}
+
+.teste {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100px;
+}

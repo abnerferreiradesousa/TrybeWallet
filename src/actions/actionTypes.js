@@ -1,0 +1,5 @@
+export const ADD_EMAIL = 'ADD_EMAIL';
+export const REQUEST_SUCCESS = 'REQUEST_SUCCESS';
+export const REQUEST_FAILED = 'REQUEST_FAILED';
+export const DELETE_EXPENSE = 'DELETE_EXPENSE';
+export const ADD_CURRENCIES = 'ADD_CURRENCIES';
