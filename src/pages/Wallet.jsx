@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import TableExpense from '../components/TableExpense';
-import { fetchCurrency, deleteExpense } from '../actions';
+import { fetchCurrency, deleteExpense } from '../Redux/actions';
 import './Wallet.css';
 import handleRequest from '../servicesFromAPI';
 import { DOLAR_TURISMO, TAG_ALIMENTO, TAG_OPTIONS, METHOD_OPTIONS } from './data';
@@ -81,7 +81,7 @@ const Wallet = ({ email, totalExpenses, getDataExpenses, getUpdateExpense }) => 
   };
 
   return (
-    <section className="card">
+    <section className="head">
       <header>
         <section>
           Trybe

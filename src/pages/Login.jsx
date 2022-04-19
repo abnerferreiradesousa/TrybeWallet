@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
-import actionEmail from '../actions';
+import actionEmail from '../Redux/actions';
 import { MINIMIUM_CARACTERS, ROUTE_WALLET } from './data';
+import './Login.css';
 
 const Login = ({ sendEmail }) => {
   const [email, setEmail] = useState('');
@@ -31,33 +32,37 @@ const Login = ({ sendEmail }) => {
   };
 
   return (
-    <form onSubmit={ handleClick }>
-      <label htmlFor="email">
-        Email
-        <input
-          data-testid="email-input"
-          type="email"
-          id="email"
-          onChange={ ({ target }) => setEmail(target.value) }
-        />
-      </label>
-      <label htmlFor="password">
-        Senha
-        <input
-          data-testid="password-input"
-          type="password"
-          id="password"
-          onChange={ ({ target }) => setPassword(target.value) }
-        />
-      </label>
-      <button
-        type="submit"
-        disabled={ !handleDisabled() }
-        onClick={ handleClick }
-      >
-        Entrar
-      </button>
-    </form>);
+    <section className="form__content">
+      <form onSubmit={ handleClick } className="form">
+        <label htmlFor="email">
+          <input
+            data-testid="email-input"
+            type="email"
+            className="form__input"
+            id="email"
+            placeholder="Email"
+            onChange={ ({ target }) => setEmail(target.value) }
+          />
+        </label>
+        <label htmlFor="password">
+          <input
+            data-testid="password-input"
+            type="password"
+            className="form__input"
+            id="password"
+            placeholder="Senha"
+            onChange={ ({ target }) => setPassword(target.value) }
+          />
+        </label>
+        <button
+          type="submit"
+          disabled={ !handleDisabled() }
+          onClick={ handleClick }
+        >
+          ENTRAR
+        </button>
+      </form>
+    </section>);
 };
 
 const mapDispatchToProps = (dispatch) => ({

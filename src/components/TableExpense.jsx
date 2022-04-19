@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { deleteExpense } from '../actions';
+import { deleteExpense } from '../Redux/actions';
 import { thColumns } from '../pages/data';
 import './TableExpense.css';
 
