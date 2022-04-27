@@ -37,7 +37,11 @@ body {
   width: 250px;
 }
 
-input:hover {
+input::placeholder {
+  color: black;
+}
+
+.form__input:hover {
   border: 2px solid #820ad1;
   transition: all 0.5s ease-in-out;
 }
@@ -47,8 +51,9 @@ input:focus {
   outline: 0;
 }
 
-button {
+.form__btn {
   background-color: white;
+  border: 2px solid #820ad1;
   border-radius: 0 20px;
   color: #820ad1;
   display: flex;
@@ -58,8 +63,8 @@ button {
   width: 71%;
 }
 
-button:hover {
+.form__btn:hover {
   background-color: #820ad1;
   color: white;
-  transition: all 0.35s ease-in-out;
+  transition: all 0.35s;
 }

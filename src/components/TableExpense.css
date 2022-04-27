@@ -4,20 +4,16 @@ table {
 }
 
 .header__item {
-  padding: 1rem;
+  border: 1px solid black;
+  color: black;
+  padding: 0.5rem;
 }
 
 .body_item {
+  color:black;
   padding: 1rem 0;
   text-align: center;
   text-overflow: ellipsis;
   white-space: nowrap;
-  width: 5rem;
-}
-
-.teste {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  width: 100px;
+  /* width: 5rem; */
 }

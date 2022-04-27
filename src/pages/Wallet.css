@@ -1,20 +1,74 @@
 .head {
-  background-color: white;
-  width: 100%;
-
+  background-color: #ffe2ff;
+  height: 100vh;
 }
 
 .card__form {
+  align-items: center;
   display: flex;
   justify-content: center;
+  margin-top: 2%;
   width: 100%;
 }
 
-header {
+.head__logo {
+  align-items: center;
+  background-color: #820ad1;
   display: flex;
+  height: 5vh;
   justify-content: space-between;
+  padding: 15px;
+}
+
+.head__text {
+  color: white;
+  font-size: 2rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  margin: 150px;
+}
+
+.head__info {
+  color: white;
+  font-weight: 600;
+  letter-spacing: 1px;
+  margin: 30px;
+}
+
+.head__info span {
+  margin: 10px;
 }
 
 label {
   margin-right: 10px;
+}
+
+.head__btn {
+  background-color: white;
+  border: 2px solid #820ad1;
+  border-radius: 10px;
+  color: #820ad1;
+  font-weight: 550;
+  padding: 6px;
+  width: 12%;
+}
+
+.head__btn:hover {
+  background-color: #820ad1;
+  color: white;
+  transition: all 0.35s ease-in-out;
+}
+
+.card__input , select {
+  border: 2px solid black;
+  border-radius: 5px;
+  color: black;
+  font-size: 90%;
+  font-weight: 550;
+  margin: 3px;
+  padding: 4px;
+}
+
+.head__label--black {
+  color: black;
 }

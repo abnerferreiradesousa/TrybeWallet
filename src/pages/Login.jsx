@@ -56,6 +56,7 @@ const Login = ({ sendEmail }) => {
         </label>
         <button
           type="submit"
+          className="form__btn"
           disabled={ !handleDisabled() }
           onClick={ handleClick }
         >

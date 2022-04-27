@@ -82,12 +82,11 @@ const Wallet = ({ email, totalExpenses, getDataExpenses, getUpdateExpense }) => 
 
   return (
     <section className="head">
-      <header>
-        <section>
-          Trybe
-          <font>Wallet</font>
+      <header className="head__logo">
+        <section className="head__text">
+          TrybeWallet
         </section>
-        <section>
+        <section className="head__info">
           <span data-testid="email-field">
             {`Email: ${email}`}
           </span>
@@ -99,16 +98,17 @@ const Wallet = ({ email, totalExpenses, getDataExpenses, getUpdateExpense }) => 
       </header>
       <form className="card__form">
         <label htmlFor="value">
-          Valor
           <input
             type="number"
             id="value"
             value={ value }
+            className="card__input"
+            placeholder="Valor"
             data-testid="value-input"
             onChange={ ({ target }) => setValue(target.value) }
           />
         </label>
-        <label htmlFor="currency">
+        <label htmlFor="currency" className="head__label--black">
           Moedas
           <select
             id="currency"
@@ -126,7 +126,7 @@ const Wallet = ({ email, totalExpenses, getDataExpenses, getUpdateExpense }) => 
           </select>
         </label>
 
-        <label htmlFor="method">
+        <label htmlFor="method" className="head__label--black">
           Método de Pagamento
           <select
             name="method"
@@ -141,7 +141,7 @@ const Wallet = ({ email, totalExpenses, getDataExpenses, getUpdateExpense }) => 
           </select>
         </label>
 
-        <label htmlFor="tag">
+        <label htmlFor="tag" className="head__label--black">
           Tag
           <select
             name="tag"
@@ -156,10 +156,11 @@ const Wallet = ({ email, totalExpenses, getDataExpenses, getUpdateExpense }) => 
           </select>
         </label>
         <label htmlFor="description">
-          Descrição
           <input
             type="text"
             id="description"
+            className="card__input"
+            placeholder="Descrição"
             value={ description }
             data-testid="description-input"
             onChange={ ({ target }) => setDescription(target.value) }
@@ -169,6 +170,7 @@ const Wallet = ({ email, totalExpenses, getDataExpenses, getUpdateExpense }) => 
           isEditing ? (
             <button
               type="button"
+              className="head__btn"
               onClick={ handleEditedExpanse }
             >
               Editar despesa
@@ -176,6 +178,7 @@ const Wallet = ({ email, totalExpenses, getDataExpenses, getUpdateExpense }) => 
           ) : (
             <button
               type="button"
+              className="head__btn"
               onClick={ handleClick }
             >
               Adicionar despesa
