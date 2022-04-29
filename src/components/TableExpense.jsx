@@ -57,21 +57,24 @@ const TableExpense = ({
             <td className="body_item">Real</td>
             <td className="body_item">
               <button
-                type="button"
-                data-testid="delete-btn"
-                id={ expense.id }
-                onClick={ handleDelete }
-              >
-                Deletar
-              </button>
-              <button
                 data-testid="edit-btn"
+                className="edit__btn"
                 type="button"
                 id={ expense.id }
                 onClick={ handleEditExpense }
               >
                 Editar
               </button>
+              <button
+                type="button"
+                data-testid="delete-btn"
+                className="delete__btn"
+                id={ expense.id }
+                onClick={ handleDelete }
+              >
+                Deletar
+              </button>
+
             </td>
           </tr>
         ))}

@@ -5,15 +5,37 @@ table {
 
 .header__item {
   border: 1px solid black;
-  color: black;
+  color: #820ad1;
   padding: 0.5rem;
+  font-size: 0.9rem;
+  text-transform: uppercase;
 }
 
 .body_item {
-  color:black;
-  padding: 1rem 0;
+  border: 1px solid black;
+  color: black;
+  padding: 0.5rem;
+  /* padding: 1rem 0; */
   text-align: center;
   text-overflow: ellipsis;
   white-space: nowrap;
-  /* width: 5rem; */
+}
+
+.delete__btn , .edit__btn {
+  background-color: white;
+  border: 2px solid #820ad1;
+  border-radius: 10px;
+  color: #820ad1;
+  font-family: 'Radio Canada', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 550;
+  margin: 1px;
+  padding: 6px;
+  width: 50%;
+}
+
+.delete__btn:hover , .edit__btn:hover {
+  background-color: #820ad1;
+  color: white;
+  transition: all 0.35s ease-in-out;
 }

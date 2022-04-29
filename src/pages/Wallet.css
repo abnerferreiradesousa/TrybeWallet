@@ -48,7 +48,9 @@ label {
   border: 2px solid #820ad1;
   border-radius: 10px;
   color: #820ad1;
-  font-weight: 550;
+  font-family: 'Radio Canada', sans-serif;
+  /* font-weight: 550; */
+  font-size: 0.9rem;
   padding: 6px;
   width: 12%;
 }
@@ -60,9 +62,10 @@ label {
 }
 
 .card__input , select {
-  border: 2px solid black;
+  border: 2px solid #820ad1;
   border-radius: 5px;
   color: black;
+  font-family: 'Radio Canada', sans-serif;
   font-size: 90%;
   font-weight: 550;
   margin: 3px;
