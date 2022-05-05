@@ -43,12 +43,69 @@ describe('A página wallet', () => {
       const INITIAL_VALUE = 0;
       expect(totalField).toContainHTML(INITIAL_VALUE);
     });
-    test('4 - Exibe o cambio utilizado \'BRL\'', () => {
+    it('4 - Exibe o cambio utilizado \'BRL\'', () => {
       renderWithRouterAndRedux(<Wallet />, ['/carteira']);
       const exchangeField = screen.getByTestId(CURRENCY_EXCHANGE_FIELD);
   
       expect(exchangeField).toBeInTheDocument();
       expect(exchangeField).toContainHTML('BRL');
+    });
+  });
+  describe('Deve ter campos para inserir', () => {
+    beforeEach(() => {
+      renderWithRouterAndRedux(<Wallet />, ['/carteira']);
+    })
+    it('5 - um valor.', () => {
+      const valueField = screen.getByPlaceholderText(/valor/i);
+      expect(valueField).toBeDefined();
+    });
+    it('6 - uma descrição.', () => {
+      const descriptionField = screen.getByPlaceholderText(/Descrição/i);
+      expect(descriptionField).toBeDefined();
+    });
+    it('7 - uma tag que, por sua vez, deve conter suas opções de tipos de gastos.', () => {
+      const tagField = screen.getByLabelText(/Tag/i);
+      const foodOption = screen.getByText(/Alimentação/i);
+      const takeCareOption = screen.getByText(/Lazer/i);
+      const workOption = screen.getByText(/Trabalho/i);
+      const transportOption = screen.getByText(/Transporte/i);
+      const healthOption = screen.getByText(/Saúde/i);
+
+      expect(tagField).toBeDefined();
+      expect(foodOption).toBeDefined();
+      expect(takeCareOption).toBeDefined();
+      expect(workOption).toBeDefined();
+      expect(transportOption).toBeDefined();
+      expect(healthOption).toBeDefined();
+    });
+    it('8 - um método de pagamento que, por sua vez, deve conter suas opções de pagamento.', () => {
+      const methodField = screen.getByLabelText(/Método de Pagamento/i);
+      const cashOption = screen.getByText(/Dinheiro/i);
+      const creditOption = screen.getByText(/Cartão de crédito/i);
+      const debitOption = screen.getByText(/Cartão de débito/i);
+
+      expect(methodField).toBeDefined();
+      expect(cashOption).toBeDefined();
+      expect(creditOption).toBeDefined();
+      expect(debitOption).toBeDefined();
+    });
+    it('9 - uma moeda.', () => {
+      const coinField = screen.getByLabelText(/Moedas/i);
+      expect(coinField).toBeDefined();
+    });
+  })
+  describe('Deve ter uma tabela que exiba os seguines colunas.', () => {
+    test('10 - Descrição, Tag, Método de pagamento, Valor, Moeda, Câmbio utilizado, Valor convertido e Moeda de conversão', () => {
+      renderWithRouterAndRedux(<Wallet />, ['/carteira']);
+
+      expect(screen.getByRole('columnheader', { name: /Descrição/i })).toBeInTheDocument();
+      expect(screen.getByRole('columnheader', { name: /Tag/i })).toBeInTheDocument();
+      expect(screen.getByRole('columnheader', { name: /Método de pagamento/i })).toBeInTheDocument();
+      expect(screen.getByRole('columnheader', { name: 'Moeda' })).toBeInTheDocument();
+      expect(screen.getByRole('columnheader', { name: /Câmbio utilizado/i })).toBeInTheDocument();
+      expect(screen.getByRole('columnheader', { name: /Valor convertido/i })).toBeInTheDocument();
+      expect(screen.getByRole('columnheader', { name: /Moeda de conversão/i })).toBeInTheDocument();
+      expect(screen.getByRole('columnheader', { name: /Editar\/Excluir/i })).toBeInTheDocument();
     });
   });
 });
