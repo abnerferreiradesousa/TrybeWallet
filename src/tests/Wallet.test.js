@@ -1,15 +1,26 @@
 import React from 'react';
-import { screen, fireEvent } from '@testing-library/react';
+import { screen, fireEvent, waitFor } from '@testing-library/react';
 import App from '../App';
 import renderWithRouterAndRedux from './helpers/renderWithRouterAndRedux';
 import { stateWithExpenses, stateWithEmail, responseCoins } from './helpers/mockData';
 import Wallet from '../pages/Wallet';
+import userEvent from '@testing-library/user-event';
 
-import {getRoles, logRoles} from '@testing-library/dom'
+
+import {getRoles, logRoles, within} from '@testing-library/dom'
 
 const INPUT_EMAIL_TEST_ID = 'email-input';
 const TOTAL_FIELD_TEST_ID = 'total-field';
 const CURRENCY_EXCHANGE_FIELD = 'header-currency-field';
+
+const responseFromAPI = Promise.resolve({
+  json: () => Promise.resolve(responseCoins),
+  ok: true,
+})
+
+const mockedExchange = jest.spyOn(global, 'fetch').mockImplementation(() => responseFromAPI)
+
+afterEach(() => jest.clearAllMocks());
 
 describe('A página wallet', () => {
   it('1 - Deve está na rota \'/carteira\'', () => {
@@ -33,7 +44,7 @@ describe('A página wallet', () => {
       expect(emailField).toContainHTML(store.getState().user.email);
     })
     it('3 - Renderiza um elmento com o total de gastos', () => {
-      const { store } = renderWithRouterAndRedux(
+      renderWithRouterAndRedux(
         <App />, {
           initialEntries: ['/carteira'],
           initialState: stateWithEmail,
@@ -44,7 +55,7 @@ describe('A página wallet', () => {
       expect(totalField).toContainHTML(INITIAL_VALUE);
     });
     it('4 - Exibe o cambio utilizado \'BRL\'', () => {
-      renderWithRouterAndRedux(<Wallet />, ['/carteira']);
+      renderWithRouterAndRedux(<Wallet />, {initialEntries: ['/carteira']});
       const exchangeField = screen.getByTestId(CURRENCY_EXCHANGE_FIELD);
   
       expect(exchangeField).toBeInTheDocument();
@@ -53,7 +64,7 @@ describe('A página wallet', () => {
   });
   describe('Deve ter campos para inserir', () => {
     beforeEach(() => {
-      renderWithRouterAndRedux(<Wallet />, ['/carteira']);
+      renderWithRouterAndRedux(<Wallet />, {initialEntries: ['/carteira']});
     })
     it('5 - um valor.', () => {
       const valueField = screen.getByPlaceholderText(/valor/i);
@@ -96,7 +107,7 @@ describe('A página wallet', () => {
   })
   describe('Deve ter uma tabela que exiba os seguines colunas.', () => {
     test('10 - Descrição, Tag, Método de pagamento, Valor, Moeda, Câmbio utilizado, Valor convertido e Moeda de conversão', () => {
-      renderWithRouterAndRedux(<Wallet />, ['/carteira']);
+      renderWithRouterAndRedux(<Wallet />, {initialEntries: ['/carteira']});
 
       expect(screen.getByRole('columnheader', { name: /Descrição/i })).toBeInTheDocument();
       expect(screen.getByRole('columnheader', { name: /Tag/i })).toBeInTheDocument();
@@ -107,5 +118,105 @@ describe('A página wallet', () => {
       expect(screen.getByRole('columnheader', { name: /Moeda de conversão/i })).toBeInTheDocument();
       expect(screen.getByRole('columnheader', { name: /Editar\/Excluir/i })).toBeInTheDocument();
     });
-  });
+   });
+   describe('Deve salvar as informações da despesa no estado global e atualizar a soma de despesas no header', () => {
+    test('11 - ao clicar em \'Adicionar despesa\'', async () => {
+      const { store } = renderWithRouterAndRedux(
+        <App />, {
+          initialEntries: ['/carteira'],
+        });
+      const addButton = screen.getByRole('button', { name: /Adicionar despesa/i });
+      const valueField = screen.getByPlaceholderText(/valor/i);
+      const coinField = await screen.findByLabelText(/Moedas/i);
+      const methodField = screen.getByLabelText(/Método de Pagamento/i);
+      const tagField = screen.getByLabelText(/Tag/i);
+      const descriptionField = screen.getByPlaceholderText(/Descrição/i);
+  
+      expect(addButton).toBeInTheDocument();
+      userEvent.type(valueField, '10');
+      userEvent.selectOptions(coinField, 'JPY');
+      userEvent.selectOptions(methodField, 'Cartão de crédito');
+      userEvent.selectOptions(tagField, 'Lazer');
+      userEvent.type(descriptionField, 'Dez ienes');
+      fireEvent.click(addButton);
+      expect(mockedExchange).toBeCalledTimes(2);
+  
+      const expectedStateExpense = [
+        {
+          id: 0,
+          value: '10',
+          currency: 'JPY',
+          method: 'Cartão de crédito',
+          tag: 'Lazer',
+          description: 'Dez ienes',
+          exchangeRates: responseCoins,
+        },
+      ];
+  
+      await waitFor(() => {
+        expect(valueField.value === 0 || valueField.value === '0' || valueField.value === '').toBe(true);
+      });
+      expect(store.getState().wallet.expenses).toStrictEqual(expectedStateExpense);
+
+
+      userEvent.type(valueField, '30');
+      userEvent.selectOptions(coinField, 'EUR');
+      userEvent.selectOptions(methodField, 'Dinheiro');
+      userEvent.selectOptions(tagField, 'Trabalho');
+      userEvent.type(descriptionField, 'Trinta euros');
+      fireEvent.click(addButton);
+      expect(mockedExchange).toBeCalledTimes(3);
+
+      const expectedStateExpense2 = [
+        {
+          id: 0,
+          value: '10',
+          currency: 'JPY',
+          method: 'Cartão de crédito',
+          tag: 'Lazer',
+          description: 'Dez ienes',
+          exchangeRates: responseCoins,
+        },
+        {
+          id: 1,
+          value: '30',
+          currency: 'EUR',
+          method: 'Dinheiro',
+          tag: 'Trabalho',
+          description: 'Trinta euros',
+          exchangeRates: responseCoins,
+        },
+      ];
+
+      await waitFor(() => {
+        expect(valueField.value === 0 || valueField.value === '0' || valueField.value === '').toBe(true);
+      });
+      expect(store.getState().wallet.expenses).toStrictEqual(expectedStateExpense2);
+
+      const totalField = screen.getByTestId(TOTAL_FIELD_TEST_ID);
+      expect(totalField).toContainHTML('158.31');
+      });
+    });
+   describe('Deve renderizar dentro de options as siglas de moedas buscando de uma API', () => {
+    test('12 - renderiza as siglas corretamente', async () => {
+      renderWithRouterAndRedux(<Wallet />, '/carteira');
+      const currencyInput = await screen.findByRole('combobox', {
+        name: /moeda/i,
+      });
+  
+      const coinOptions = within(currencyInput).getAllByRole('option');
+      const coinsValues = coinOptions.map((coinOption) => coinOption.value);
+
+      const expectedCoinOptions = [
+        'USD', 'CAD', 'EUR', 'GBP', 'ARS', 'BTC', 'LTC',
+        'JPY', 'CHF', 'AUD', 'CNY', 'ILS', 'ETH', 'XRP', 'DOGE'
+      ];
+  
+      expect(coinsValues).toEqual(expectedCoinOptions);
+  
+      expect(mockedExchange).toBeCalled();
+      expect(mockedExchange).toBeCalledWith('https://economia.awesomeapi.com.br/json/all');
+      expect(currencyInput).toBeInTheDocument();
+    });
+   });
 });
