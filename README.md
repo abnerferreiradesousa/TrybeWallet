@@ -13,8 +13,8 @@
     * `npm install`
   * Inicialize o projeto:
     * `npm start` (uma nova página deve abrir no seu navegador com um texto simples)
-  * Caso queira rodar os testes, basta rodar o comando abaixo:
-    * `npm test`
+  * Caso queira rodar os testes pode usar o comando abaixo:
+    * `npm test`(Obs.: talvez apareça uma tela com uma messagem: "tests not found", se aparecer, tecle `a` e todos os testes serão rodados)
 
 # Habilidades
 Neste projeto, reforcei meus conhecimentos de Redux, ao:
