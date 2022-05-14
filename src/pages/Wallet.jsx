@@ -112,6 +112,7 @@ const Wallet = ({ email, totalExpenses, getDataExpenses, getUpdateExpense }) => 
           Moedas
           <select
             id="currency"
+            className="select--background"
             value={ currency }
             data-testid="currency-input"
             onChange={ ({ target }) => setCurrency(target.value) }
@@ -130,6 +131,7 @@ const Wallet = ({ email, totalExpenses, getDataExpenses, getUpdateExpense }) => 
           Método de Pagamento
           <select
             name="method"
+            className="select--background"
             id="method"
             value={ method }
             data-testid="method-input"
@@ -146,6 +148,7 @@ const Wallet = ({ email, totalExpenses, getDataExpenses, getUpdateExpense }) => 
           <select
             name="tag"
             id="tag"
+            className="select--background"
             value={ tag }
             data-testid="tag-input"
             onChange={ ({ target }) => setTag(target.value) }
