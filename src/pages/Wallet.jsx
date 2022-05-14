@@ -61,7 +61,6 @@ const Wallet = ({ email, totalExpenses, getDataExpenses, getUpdateExpense }) => 
       exchangeRates,
       id,
     };
-    console.log(editObj);
     totalExpenses.splice(id, 1, editObj);
     getUpdateExpense(totalExpenses);
     cleanInputs();
