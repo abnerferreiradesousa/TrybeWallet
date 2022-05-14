@@ -1,5 +1,21 @@
 # Boas vindas ao repositório do projeto Trybe Wallet!
 
+# Instruções para rodar o projeto no seu computador
+
+## Antes de começar a desenvolver
+
+1. Clone o repositório
+  * `git clone git@github.com:tryber/sd-017-project-trivia-react-redux.git`
+  * Entre na pasta do repositório que você acabou de clonar:
+
+2. Instale as dependências e inicialize o projeto
+  * Instale as dependências:
+    * `npm install`
+  * Inicialize o projeto:
+    * `npm start` (uma nova página deve abrir no seu navegador com um texto simples)
+  * Caso queira rodar os testes, basta rodar o comando abaixo:
+    * `npm test`
+
 # Habilidades
 Neste projeto, reforcei meus conhecimentos de Redux, ao:
 
