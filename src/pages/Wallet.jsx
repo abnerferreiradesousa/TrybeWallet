@@ -163,6 +163,7 @@ const Wallet = ({ email, totalExpenses, getDataExpenses, getUpdateExpense }) => 
             id="description"
             className="card__input"
             placeholder="Descrição"
+            autoComplete="off"
             value={ description }
             data-testid="description-input"
             onChange={ ({ target }) => setDescription(target.value) }
