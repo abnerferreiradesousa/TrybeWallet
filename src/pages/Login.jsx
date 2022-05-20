@@ -38,6 +38,7 @@ const Login = ({ sendEmail }) => {
           <input
             data-testid="email-input"
             type="email"
+            autoComplete="off"
             className="form__input"
             id="email"
             placeholder="Email"
