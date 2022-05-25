@@ -2,7 +2,7 @@
 
 # Instruções para rodar o projeto no seu computador
 
-## Antes de começar a desenvolver
+## COMO RODAR A APLICAÇÃO
 
 1. Clone o repositório
   * `git clone git@github.com:tryber/sd-017-project-trybewallet.git`
