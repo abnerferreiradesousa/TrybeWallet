@@ -2,6 +2,9 @@
 
 # Instruções para rodar o projeto no seu computador
 
+## ANTES...
+   * O código desse projeto em questão e outros refletem os diferentes níveis de aprendizado ao longo da minha jornada estudante de desenvolvimento web pois estou de vez em quando buscando refatorar códigos dos meus projetos afim de exercitar as boas práticas em CLEAN CODE e ESCALABILIDADE!
+
 ## COMO RODAR A APLICAÇÃO
 
 1. Clone o repositório
